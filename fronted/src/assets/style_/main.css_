@@ -1,0 +1,8 @@
+@import './cmps/app.css';
+@import './cmps/dashboard.css';
+@import './cmps/doughnut.css';
+@import './cmps/toyFilter.css';
+
+body{
+    background-color: rgb(207, 194, 170);
+}

@@ -1,0 +1,10 @@
+.doughnut-container{
+    display: flex;
+    width: 50%;
+}
+.dashbord {
+    display: flex;
+}
+.doughnut-show{
+    width: 200px;
+}

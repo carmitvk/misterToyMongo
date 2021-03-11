@@ -1,0 +1,61 @@
+.home{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .txt {
+        color :red
+    }
+
+    img {
+        margin-top: 40px;
+        transition:all .8s ease-in-out;
+        max-width:400px;
+        &:hover{
+            transform:rotate(90deg);
+        }
+    }
+
+    // home-container. 
+    &-container{
+        background-color:#dbbebe;
+        width:30%;
+    }
+    &-container:hover{
+        background-color: darken(#dbbebe,10%)
+    }
+
+    //before inside home(which is the &), before all items
+    &::before {
+        content:url('../logo.png');
+        transform:rotate(180deg);
+    }
+    //before inside home, after all items
+    &::after {
+        content:url('../logo.png');
+    }
+    
+    // // Interpolation: after class home-container the content will be shown
+    // $x: home-container;
+    // .#{$x}:after {content:"#{$x}";}
+
+
+
+    // @mixin make-box($bcolor){
+    //     padding:1.4em;
+    //     border-radius:0.8em;
+    //     border:1px solid $bcolor;
+    // }
+    // .item-box {
+    //     @include make-box(gray)
+    // }
+    // .item-sale-box {
+    //     @include make-box(tomato)
+    // }
+
+
+
+
+}
+    
