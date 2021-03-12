@@ -4,7 +4,12 @@ const reviewService = require('./review.service')
 
 async function getReviews(req, res) {
     try {
-        const reviews = await reviewService.query(req.query)
+        var reviewIds=[];
+        var reviews = [];
+        if (Object.keys(req.query).length > 0) {
+            reviewIds = req.query.reviewIds
+            reviews = await reviewService.query(reviewIds)
+        }
         res.send(reviews)
     } catch (err) {
         logger.error('Cannot get reviews', err)
@@ -22,14 +27,23 @@ async function deleteReview(req, res) {
     }
 }
 
+//----------review-----
+// _id
+// creatorFullName
+// creatorId
+// txt
+// createdAt
+// rate(1 to 5)
+
 
 async function addReview(req, res) {
     try {
-        var review = req.body
-        review.byUserId = req.session.user._id
+        const { txt, rate} = req.body
+        var review = { txt, rate }
+        review.creatorId = req.session.user?._id
+        review.creatorFullName = req.session.user?.fullname
+        review.createdAt = Date.now()
         review = await reviewService.add(review)
-        review.byUser = req.session.user
-        review.aboutUser = await userService.getById(review.aboutUserId)
         res.send(review)
 
     } catch (err) {

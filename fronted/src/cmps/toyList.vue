@@ -2,7 +2,7 @@
 
 <template>
 <!-- <ul class="toy-list"> 
-    <li v-for="toy in toys" :key="toy._id" class="toy-preview-container"> 
+    <li v-for="toy in toys" :key="toy._id" class="toy-list-container"> 
         <toy-preview :toy="toy" />
         <div class="actions-container">
                 <button class="btn" @click="remove(toy._id)">X</button> 

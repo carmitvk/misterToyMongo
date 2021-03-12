@@ -12,7 +12,7 @@
           <h1>Toy application:</h1> 
           <button><router-link :to="'/toy/edit/'">Add New Toy</router-link></button>
           <toy-filter/>
-          <toy-list :toys="toys" @remove="removeToy" /> 
+          <toy-list :toys="toys" @remove="removeToy" />  
 
 
 

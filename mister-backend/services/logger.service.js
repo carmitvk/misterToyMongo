@@ -36,6 +36,7 @@ module.exports = {
         doLog('WARN', ...args)
     },
     error(...args) {
+        console.log(...args)
         doLog('ERROR', ...args)
     }
 }

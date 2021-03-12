@@ -8,7 +8,9 @@ const router = express.Router()
 // router.use(requireAuth)
 
 router.get('/', log, getReviews)
-router.post('/',  requireAuth, addReview)
-router.delete('/:id',  requireAuth, deleteReview)
+// router.post('/',  requireAuth, addReview)
+router.post('/', addReview)
+router.delete('/:id',  deleteReview)
+// router.delete('/:id',  requireAuth, deleteReview)
 
 module.exports = router

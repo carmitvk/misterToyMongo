@@ -3,12 +3,22 @@
         <p>{{toy.name}}</p>
         <p>{{toy.price}}</p>
         <p>{{toy.type}}</p>
-        <p>{{createdAtDate}}</p>
+        <p>{{toy.createdAtDate}}</p>
+        <!-- <p>{{toy.creatorId}}</p> -->
+        <!-- <p>{{toy.creatorFullName}}</p> -->
+        <!-- <review-list :reviewIds="toy.reviewIds" @remove="removeReview" /> temp carmit ??? -->
+        <!-- <button class="btn"><router-link :to="'/toy/'+toy._id">Reviews</router-link></button> -->
         <p v-if="toy.inStock">Is in stock</p>
         <p v-else>Is not in stock</p>
         <button @click="goBack">Back</button>
     </section>
 </template>
+
+
+
+
+
+
 
 <script>
 import {toyService} from '../services/toy.service.js'
