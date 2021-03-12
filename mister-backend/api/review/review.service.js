@@ -62,9 +62,9 @@ async function remove(reviewId) {
         const { userId, isAdmin } = store
         const collection = await dbService.getCollection('review')
         // remove only if user is owner/admin
-        const query = { _id: ObjectId(reviewId) }
-        if (!isAdmin) query.byUserId = ObjectId(userId)
-        await collection.deleteOne(query)
+        const objId = { _id: ObjectId(reviewId) }
+        // if (!isAdmin) query.byUserId = ObjectId(userId)
+        await collection.deleteOne(objId)
         // return await collection.deleteOne({ _id: ObjectId(reviewId), byUserId: ObjectId(userId) })
     } catch (err) {
         logger.error(`cannot remove review ${reviewId}`, err)
