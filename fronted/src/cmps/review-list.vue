@@ -23,7 +23,7 @@
 import reviewPreview from './reviewPreview'
 
 export default {
-    props: ['reviewids'],
+    props: ['reviewIds'],
     data(){
         return{
             previews:null
@@ -39,6 +39,8 @@ export default {
     },
     created() {
     //get previews by ids
+    (reviewIds)
+
     }
 }
 </script>

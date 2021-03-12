@@ -25,7 +25,7 @@ async function getToys(req, res) {
             const regex = new RegExp(filterBy.name, 'i')//i is case insensitive
 
             var toys = allToys.filter((toy) => {
-                return ((!filterBy.name || regex.test(toy.name)) && (toy.inStock === filterBy.inStock) &&
+                return ((!filterBy.name || regex.test(toy.name)) && (toy.inStock === filterBy.inStock||filterBy.inStock==='all') &&
                     ((filterBy.toyType.includes('all') || filterBy.toyType.includes(toy.toyType))))
             });
 

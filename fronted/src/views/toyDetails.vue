@@ -6,7 +6,7 @@
         <p>{{toy.createdAtDate}}</p>
         <!-- <p>{{toy.creatorId}}</p> -->
         <!-- <p>{{toy.creatorFullName}}</p> -->
-        <!-- <review-list :reviewIds="toy.reviewIds" @remove="removeReview" /> temp carmit ??? -->
+        <!-- <review-list :reviewIds="toy.reviewIds" @remove="removeReview" />  ???temp-->
         <!-- <button class="btn"><router-link :to="'/toy/'+toy._id">Reviews</router-link></button> -->
         <p v-if="toy.inStock">Is in stock</p>
         <p v-else>Is not in stock</p>
