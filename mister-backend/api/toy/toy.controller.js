@@ -1,5 +1,6 @@
 const toyService = require('./toy.service')
 const logger = require('../../services/logger.service')
+const reviewController = require('../review/review.controller')//TODO
 
 
 async function getToys(req, res) {
@@ -89,6 +90,35 @@ async function addToy(req, res) {
     }
 }
 
+async function addTheReview(req, res) {
+    try {
+        const toyId = req.params.toyId
+        const toy = await toyService.getById(toyId)
+        var review = await reviewController.addReview(req, res)
+        toy.reviewIds.push(review)
+        var savedToy = await toyService.update(toy)
+        res.send(savedToy)
+    } catch (err) {
+        logger.error('Failed to add review to toy', err)
+        res.status(500).send({ err: 'Failed to add review to toy' })
+    }
+}
+
+// function getReviewsByToyId(req, res) {
+//     try {
+//         const toyId = req.params.toyId
+//         const toy = await toyService.getById(toyId)
+//         var review = await reviewController.addReview(req, res)
+//         toy.reviewIds.push(review._id)// TODO update the reviewIds in toys database.
+
+//         res.send(toy)
+
+//     } catch (err) {
+//         logger.error('Failed to add review to toy', err)
+//         res.status(500).send({ err: 'Failed to add review to toy' })
+//     }
+// }
+
 async function updateToy(req, res) {//update
     try {
         const { _id, name, price, toyType, inStock, imgName } = req.body
@@ -120,4 +150,5 @@ module.exports = {
     updateToy,
     addToy,
     deleteToy,
+    addTheReview,
 }

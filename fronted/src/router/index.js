@@ -7,6 +7,7 @@ import toyApp from '../views/toyApp.vue'
 import about from '../views/about.vue'
 import home from '../views/home.vue'
 import dashboard from '../views/dashboard.vue'
+import reviewEdit from '../views/reviewEdit.vue'
 
 
 Vue.use(VueRouter)
@@ -39,6 +40,12 @@ const routes = [
   {
     path: '/dashboard',
     component: dashboard,
+  },
+
+  {
+    path: '/toy/:toyId/review/',
+    // path: '/review/:reviewId?',
+    component: reviewEdit
   },
 
 ]

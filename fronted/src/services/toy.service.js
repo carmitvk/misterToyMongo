@@ -11,12 +11,13 @@ export const toyService = {
     query,
     queryAll,
     getById,
+    saveReview,
     remove,
     save,
     getEmptyToy,
     nextPage,
     getPage,
-    prevPage
+    prevPage,
 }
 
 function nextPage() {
@@ -31,7 +32,6 @@ function prevPage() {
 
 var gToys = _createToys()
 
-// TOY: support paging and filtering and sorting
 function query(filterBy) {
     var params = new URLSearchParams(filterBy).toString();
     return httpService.get(TOY_URL + '?' + params)
@@ -43,9 +43,15 @@ function queryAll() {
 
 
 function getById(id) {
-    // return axios.get(TOY_URL + id).then(res => res.data)
     return httpService.get(TOY_URL+ id)
 }
+
+
+
+function saveReview(payload ){
+    return httpService.post(TOY_URL + payload.toyId +'/review' , payload.review)
+}
+
 
 function remove(id) {
     return httpService.delete(TOY_URL+ id)
@@ -53,17 +59,15 @@ function remove(id) {
 
 function save(toy) {
     if (toy._id) {
-        // return axios.put(TOY_URL + toy._id, toy).then(res => res.data)//update        
         return httpService.put(TOY_URL+ toy._id , toy)
     } else {
-        // return axios.post(TOY_URL, toy).then(res => res.data)//add
         return httpService.post(TOY_URL , toy)
     }
 }
 
 
 function getEmptyToy(fullName) {
-    return {name: '',price: 50,
+    return {name: '',price: 0,
             toyType: 'funny',createdAt:0, inStock: true }
             // toyType: 'funny',createdAt: Date.now(), inStock: true }
 }

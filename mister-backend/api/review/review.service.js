@@ -76,14 +76,15 @@ async function remove(reviewId) {
 async function add(review) {
     try {
         // peek only updatable fields!
-        const reviewToAdd = {...review}
+        var reviewToAdd = {...review}
         //     byUserId: ObjectId(review.byUserId),
         //     aboutUserId: ObjectId(review.aboutUserId),
         //     txt: review.txt
         // }
         const collection = await dbService.getCollection('review')
-        await collection.insertOne(reviewToAdd)
-        return reviewToAdd;
+        var res = await collection.insertOne(reviewToAdd)
+        return res.insertedId.toString();
+        // return res.ops[0];
     } catch (err) {
         logger.error('cannot insert review', err)
         throw err

@@ -101,10 +101,10 @@ export const toyStore = {
             toyService.query(payload.filter || contex.state.filterBy)
                 .then(data => {
                     contex.commit({ type: 'setToys', data });
-                   contex.commit({ type: 'setLoadingState', isLoading:false });
+                    contex.commit({ type: 'setLoadingState', isLoading:false });
                 })
                 .catch(err=>{
-                   contex.commit({ type: 'setLoadingState', isLoading:false });
+                    contex.commit({ type: 'setLoadingState', isLoading:false });
                     console.log('Store: Cannot load toys..', err);
                     throw new Error('Cannot load toys..');
                 })

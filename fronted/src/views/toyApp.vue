@@ -3,7 +3,7 @@
 <template>
       <section  class="app">
       <div v-if="isToysLoading" class="loading">
-          <!-- <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> -->
+          <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
           <span >Loading...</span>
           <!-- <img src="../assets/img/loading.gif"> -->
       </div>
@@ -50,6 +50,11 @@
           <span>{{pageIndex}}</span>
           <button @click="nextPage">Next</button>
       </div>
+      <!-- <section class="page-container">
+            <button @click="prevPage"><i class="fas fa-angle-left"></i></button>
+            <button @click="nextPage"><i class="fas fa-angle-right"></i></button>
+      </section> -->
+
       </section>
 </template>
 

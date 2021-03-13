@@ -44,7 +44,7 @@ async function addReview(req, res) {
         review.creatorFullName = req.session.user?.fullname
         review.createdAt = Date.now()
         review = await reviewService.add(review)
-        res.send(review)
+        return review
 
     } catch (err) {
         logger.error('Failed to add review', err)

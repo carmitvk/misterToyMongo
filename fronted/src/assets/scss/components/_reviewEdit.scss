@@ -1,0 +1,17 @@
+.rating{
+  border: 1px solid gray;
+  padding: 5px;
+  width: 60%;
+  margin: auto;  
+  background-color: rgb(61, 60, 60);
+  color:white;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.el-rate{
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}

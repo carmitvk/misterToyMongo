@@ -6,28 +6,26 @@
         <p>{{toy.createdAtDate}}</p>
         <!-- <p>{{toy.creatorId}}</p> -->
         <!-- <p>{{toy.creatorFullName}}</p> -->
-        <!-- <review-list :reviewIds="toy.reviewIds" @remove="removeReview" />  ???temp-->
+        <review-list :reviews="reviews" @remove="removeReview" />  
         <!-- <button class="btn"><router-link :to="'/toy/'+toy._id">Reviews</router-link></button> -->
         <p v-if="toy.inStock">Is in stock</p>
         <p v-else>Is not in stock</p>
+        <button><router-link :to="'/toy/' + toy._id + '/review/'">Add New Review</router-link></button>
         <button @click="goBack">Back</button>
     </section>
 </template>
 
-
-
-
-
-
-
 <script>
 import {toyService} from '../services/toy.service.js'
+import {reviewService} from '../services/review.service.js'
+import reviewList from '../cmps/reviewList'
 // import '../lib/moment.js' //???
 
 export default {
     data() {
         return {
             toy:null,
+            reviews:null,
         }
     },
     computed:{
@@ -38,16 +36,35 @@ export default {
     methods: {
         loadToy() {
             const id = this.$route.params.toyId
-            toyService.getById(id)//???? is ok to get here directly from service?
+            return toyService.getById(id)
             .then((toy)=>{
-                this.toy = toy
+                return this.toy = toy
             })
-            // this.toy = (this.$store.getters.toys)[id]
-            // this.toy = this.$store.getters.getById(id)
-            
+
+            // const id = this.$route.params.toyId 
+
+            // this.toy = this.$store.getters.toys.find((toy)=>{
+            //         return toy._id===id
+            // })        
+        },
+        loadReviews(toyId){
+            this.$store.dispatch({ type: 'getReviewsByToyId', reviewIds: this.toy.reviewIds })
+            .then((reviews)=>{
+                console.log('toyDetaile reviews:',reviews)
+                return this.reviews = reviews
+            })
         },
         goBack(){
             this.$router.push('/toys')
+        },
+        removeReview(reviewId){
+            this.$store.dispatch({ type: 'removeReview', reviewId })
+            .then(() => {
+                showMsg('review removed successfully')
+            })
+            .catch(err => {
+                showMsg('Cannot remove review', 'danger')
+            })
         }
     },
     watch: {
@@ -57,7 +74,14 @@ export default {
         }
     },
     created() {
-        this.loadToy();
+        this.loadToy()
+        .then(()=>{
+            this.loadReviews(this.toy._id);
+        })
+
+    },
+    components: {
+        reviewList
     }
 }
 </script>

@@ -6,8 +6,8 @@
         <review-preview :review="review" />
         <div class="actions-container">
                 <button class="btn" @click="remove(review._id)">X</button> 
-                <button class="btn"><router-link :to="'/toy/'+review._id">Details</router-link></button>
-                <button class="btn"><router-link :to="'/toy/edit/'+review._id">Edit</router-link></button>
+                <button class="btn"><router-link :to="'/review/'+review._id">Details</router-link></button>
+                <button class="btn"><router-link :to="'/review/edit/'+review._id">Edit</router-link></button>
         </div>
     </li>
 </ul> 
@@ -23,7 +23,7 @@
 import reviewPreview from './reviewPreview'
 
 export default {
-    props: ['reviewIds'],
+    props: ['reviews'],
     data(){
         return{
             previews:null
@@ -39,7 +39,6 @@ export default {
     },
     created() {
     //get previews by ids
-    (reviewIds)
 
     }
 }
