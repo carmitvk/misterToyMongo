@@ -6,10 +6,9 @@
         <p>{{toy.createdAtDate}}</p>
         <!-- <p>{{toy.creatorId}}</p> -->
         <!-- <p>{{toy.creatorFullName}}</p> -->
-        <review-list :reviews="reviews" @remove="removeReview" />  
-        <!-- <button class="btn"><router-link :to="'/toy/'+toy._id">Reviews</router-link></button> -->
         <p v-if="toy.inStock">Is in stock</p>
         <p v-else>Is not in stock</p>
+        <review-list :reviews="reviews" @remove="removeReview" />  
         <button><router-link :to="'/toy/' + toy._id + '/review/'">Add New Review</router-link></button>
         <button @click="goBack">Back</button>
     </section>
