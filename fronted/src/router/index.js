@@ -8,6 +8,8 @@ import about from '../views/about.vue'
 import home from '../views/home.vue'
 import dashboard from '../views/dashboard.vue'
 import reviewEdit from '../views/reviewEdit.vue'
+import login from '../views/login.vue'
+import userDetails from '../views/userDetails.vue'
 
 
 Vue.use(VueRouter)
@@ -47,7 +49,16 @@ const routes = [
     // path: '/review/:reviewId?',
     component: reviewEdit
   },
-
+  {
+    path: '/login',
+    name: 'login',
+    component: login
+  },
+  {
+    path: '/user/:id',
+    name: 'user-details',
+    component: userDetails
+  }
 ]
 
 const router = new VueRouter({

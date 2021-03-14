@@ -15,6 +15,9 @@ export const reviewStore = {
         },
         setReviews(state, {payload} ) {
             state.reviews = [...payload]
+        },
+        saveStoreReview(state, {reviewData}){
+            state.reviews.push(reviewData)
         }
     },
     actions: {
@@ -29,7 +32,7 @@ export const reviewStore = {
                 })
         },
         
-        saveReview(contex, {reviewData}){
+        saveTheReview(contex, {reviewData}){
             toyService.saveReview(reviewData)
             .then(review => {
                 contex.commit({ type: 'saveStoreReview', reviewData });

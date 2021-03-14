@@ -5,8 +5,13 @@
         <router-link to="/">Home</router-link> |
         <router-link to="/toys">Toys</router-link> |
         <router-link to="/about">About</router-link>|
-        <router-link to="/dashboard">Dashboard</router-link>
+        <router-link to="/dashboard">Dashboard</router-link>|
+        <router-link to="/login">Login</router-link>
         </nav>
+        <section className="loggedin-user" v-if="loggedInUser">
+            <router-link :to="`/user/${loggedInUser._id}`">{{ loggedInUser.fullname }}</router-link>
+            <!-- <span>{{ loggedInUser.score }}</span> -->
+        </section>
     </div>
 </template>
 
@@ -15,6 +20,9 @@ import userMsg from './userMsg'
 
 export default {
     computed : {
+        loggedInUser() {
+            return this.$store.getters.loggedinUser
+        },
         fullName(){
             return this.$store.getters.userForDisplay.fullname
         },

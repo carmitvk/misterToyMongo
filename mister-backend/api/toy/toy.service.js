@@ -26,6 +26,31 @@ async function query() {
 async function getById(toyId) {
     try {
         const collection = await dbService.getCollection('toy')
+        // const toy = await collection.aggregate([
+        //     {
+        //         $match: { '_id': ObjectId(toyId) }
+        //     }
+
+        //     // {
+        //     //     $lookup:
+        //     //     {
+        //     //         localField: 'reviewIds',
+        //     //         from: 'review',
+        //     //         foreignField: '_id',
+        //     //         as: 'reviews'
+        //     //     }
+        //     // },
+        //     // { 
+        //     //     $addFields: { 
+        //     //         stringId: { 
+        //     //             $toObjectId: "$_id" 
+        //     //         } 
+        //     //     } 
+        //     // },
+        // ]).toArray()
+
+
+
         const toy = await collection.findOne({ '_id': ObjectId(toyId) })
         return toy
     } catch (err) {
@@ -48,7 +73,7 @@ async function update(toy) {
     try {
         // peek only updatable fields!
         toy._id = ObjectId(toy._id);//TODO verify if fields with uppercase is ok
-        const toyToSave = {...toy}
+        const toyToSave = { ...toy }
         const collection = await dbService.getCollection('toy')
         await collection.updateOne({ '_id': toyToSave._id }, { $set: toyToSave })
         return toyToSave;
@@ -60,7 +85,7 @@ async function update(toy) {
 
 async function add(toy) {
     try {
-        const toyToAdd = {...toy};
+        const toyToAdd = { ...toy };
         const collection = await dbService.getCollection('toy')
         await collection.insertOne(toyToAdd)
         return toyToAdd

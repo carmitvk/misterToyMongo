@@ -3,13 +3,13 @@ import Vuex from 'vuex'
 
 import {toyStore} from './toyStore.js'
 import {reviewStore} from './reviewStore.js'
+import {userStore} from './userStore.js'
 
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    // count:17
   },
   mutations: {
   },
@@ -18,5 +18,6 @@ export default new Vuex.Store({
   modules: {
     toyStore,
     reviewStore,
+    userStore
   }
 })

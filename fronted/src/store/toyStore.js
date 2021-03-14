@@ -67,6 +67,7 @@ export const toyStore = {
     mutations: {
         setToys(state, {data}) {
             state.toys = data.toys;
+            console.log('state.toys', state.toys)
             state.totalNumOfToys = data.totalNumOfToys;
         },
         setAllToys(state, {data}) {
@@ -85,11 +86,9 @@ export const toyStore = {
             state.toys.splice(idx, 1)
         },
 
-        addToy(state, { savedToy }) {
+        editToy(state, { savedToy }) {
             const idx = state.toys.findIndex((td) => td._id === savedToy._id);
-            if (idx < 0) {
-                console.log('Error in addToy');
-            } else {
+            if (idx >= 0) {
                 state.toys.splice(idx, 1, savedToy);
             }
         },
@@ -116,10 +115,16 @@ export const toyStore = {
         // },
 
         saveToy(contex, payload) {
+            var isNew = !payload.toy._id;
             toyService.save(payload.toy)
                 .then(savedToy => {
-                    contex.commit({ type: 'addToy', savedToy });
-                    this.dispatch({ type: 'loadToys', filter:contex.state.filterBy});
+                    if (!isNew){
+                        contex.commit({ type: 'editToy', savedToy }); 
+                    }else{
+                        var filterBy = {...contex.state.filterBy, pageIdx:0 };
+                        contex.commit({ type: 'setFilterBy', filter:filterBy });
+                        this.dispatch({ type: 'loadToys', filter:filterBy});
+                    }
                 })
                 .catch(err => {
                     console.log('Store: Cannot save toy', err);

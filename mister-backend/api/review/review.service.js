@@ -59,11 +59,11 @@ async function query(reviewIds) {
 async function remove(reviewId) {
     try {
         const store = asyncLocalStorage.getStore()
-        const { userId, isAdmin } = store
+        const { userId, isadmin } = store
         const collection = await dbService.getCollection('review')
         // remove only if user is owner/admin
         const objId = { _id: ObjectId(reviewId) }
-        // if (!isAdmin) query.byUserId = ObjectId(userId)
+        // if (!isadmin) query.byUserId = ObjectId(userId)
         await collection.deleteOne(objId)
         // return await collection.deleteOne({ _id: ObjectId(reviewId), byUserId: ObjectId(userId) })
     } catch (err) {
@@ -83,7 +83,7 @@ async function add(review) {
         // }
         const collection = await dbService.getCollection('review')
         var res = await collection.insertOne(reviewToAdd)
-        return res.insertedId.toString();
+        return res.insertedId;
         // return res.ops[0];
     } catch (err) {
         logger.error('cannot insert review', err)

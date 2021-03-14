@@ -14,10 +14,6 @@
           <toy-filter/>
           <toy-list :toys="toys" @remove="removeToy" />  
 
-
-
-
-
 <!-- <el-row>
   <el-col :span="8" v-for="(toy, index) in toys" :key="toy._id" :offset="index > 0 ? toys : 0">
     <el-card :body-style="{ padding: '0px' }" shadow="hover" >
@@ -35,13 +31,6 @@
     </el-card>
   </el-col>
 </el-row> -->
-
-
-
-
-
-
-
 
 
       </div>

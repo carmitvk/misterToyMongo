@@ -28,7 +28,8 @@ export default {
     },
     methods: {
         save() {
-            this.$store.dispatch({ type: 'saveReview', reviewData :{toyId:this.toyId,review:this.reviewToEdit} })
+            this.$store.dispatch({ type: 'saveTheReview', reviewData :{toyId:this.toyId,review:this.reviewToEdit} })
+            // .then(() => {
             // .then(() => {
             //     showMsg('review was saved successfully');
             //     this.$router.push(`/toy/${this.toyId}`)
@@ -68,7 +69,7 @@ export default {
 
         } else {
             this.reviewToEdit = reviewService.getEmptyReview();
-            
+            this.reviewToEdit.toyId = this.toyId;
         }
     }
 }

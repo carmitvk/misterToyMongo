@@ -76,8 +76,8 @@ async function getToy(req, res) {
 
 async function addToy(req, res) {
     try {
-        const {name, price, toyType, inStock, imgName } = req.body
-        var toy = {name, price, toyType, inStock, imgName }
+        const {name, price, toyType, inStock, imgUrl } = req.body
+        var toy = {name, price, toyType, inStock, imgUrl }
         toy.creatorId = req.session.user?._id
         toy.createdAt = Date.now()
         toy.reviewIds = []
@@ -121,8 +121,8 @@ async function addTheReview(req, res) {
 
 async function updateToy(req, res) {//update
     try {
-        const { _id, name, price, toyType, inStock, imgName } = req.body
-        const toy = { _id, name, price, toyType, inStock, imgName }
+        const { _id, name, price, toyType, inStock, imgUrl } = req.body
+        const toy = { _id, name, price, toyType, inStock, imgUrl }
 
         savedToy = await toyService.update(toy)
         res.send(savedToy)

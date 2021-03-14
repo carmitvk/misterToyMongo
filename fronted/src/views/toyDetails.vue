@@ -8,7 +8,7 @@
         <!-- <p>{{toy.creatorFullName}}</p> -->
         <p v-if="toy.inStock">Is in stock</p>
         <p v-else>Is not in stock</p>
-        <review-list :reviews="reviews" @remove="removeReview" />  
+        <review-list :reviews="toy.reviews" @remove="removeReview" />hh  {{toy._id}}hhh
         <button><router-link :to="'/toy/' + toy._id + '/review/'">Add New Review</router-link></button>
         <button @click="goBack">Back</button>
     </section>
@@ -37,6 +37,7 @@ export default {
             const id = this.$route.params.toyId
             return toyService.getById(id)
             .then((toy)=>{
+                console.log('toy._id', toy._id)
                 return this.toy = toy
             })
 
@@ -46,13 +47,13 @@ export default {
             //         return toy._id===id
             // })        
         },
-        loadReviews(toyId){
-            this.$store.dispatch({ type: 'getReviewsByToyId', reviewIds: this.toy.reviewIds })
-            .then((reviews)=>{
-                console.log('toyDetaile reviews:',reviews)
-                return this.reviews = reviews
-            })
-        },
+        // loadReviews(toyId){
+        //     this.$store.dispatch({ type: 'getReviewsByToyId', reviewIds: this.toy.reviewIds })
+        //     .then((reviews)=>{
+        //         console.log('toyDetaile reviews:',reviews)
+        //         return this.reviews = reviews
+        //     })
+        // },
         goBack(){
             this.$router.push('/toys')
         },
@@ -74,9 +75,9 @@ export default {
     },
     created() {
         this.loadToy()
-        .then(()=>{
-            this.loadReviews(this.toy._id);
-        })
+        // .then(()=>{
+            // this.loadReviews(this.toy._id);
+        // })
 
     },
     components: {

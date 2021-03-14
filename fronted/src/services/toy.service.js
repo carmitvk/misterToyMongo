@@ -68,7 +68,7 @@ function save(toy) {
 
 function getEmptyToy(fullName) {
     return {name: '',price: 0,
-            toyType: 'funny',createdAt:0, inStock: true }
+            toyType: 'funny',createdAt:0, inStock: true,imgUrl:'' }
             // toyType: 'funny',createdAt: Date.now(), inStock: true }
 }
 

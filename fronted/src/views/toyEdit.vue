@@ -10,8 +10,15 @@
                     <el-option label="Funny" value="funny" ></el-option>
                     <el-option label="Baby" value="baby"></el-option>
             </el-select>
-
             In Stock?<input type="checkbox" id="inStock" v-model="toyToEdit.inStock">
+
+            <img class="picture" v-if="imgUrl" :src="toyToEdit.imgUrl" alt="image"/>
+            <label v-if="!isLoading" for="imgUploader" >
+                <img class="upload" src="../assets/img/drag-icon.png" alt="">
+            </label>
+            <img class="loading" v-else src="../assets/img/loading-gif.gif" alt="">
+            <input class="input-file" type="file" id="imgUploader" @change="onUploadImg" />
+
             <button>Save</button>
             <button @click="goBack">Cancel</button>
         </form>
@@ -21,11 +28,13 @@
 <script>
 import {toyService} from '../services/toy.service.js'
 import { showMsg } from '../services/eventBus.service.js'
+import { uploadImg } from "../services/img-upload.service.js";
 
 export default {
    data() {
         return {
-            toyToEdit: null
+            toyToEdit: null,
+            isLoading: false
         }
     },
     methods: {
@@ -45,9 +54,20 @@ export default {
         },
         goBack(){
             this.$router.push('/toys')
-        }
+        },
+        async onUploadImg(ev) {
+            this.isLoading = true
+            const res = await uploadImg(ev)
+            this.toyToEdit.imgUrl = res.url
+            // this.$emit('save', res.url)
+            console.log('onUploadImg -> res', res)
+            this.isLoading = false
+        },
     },
     computed: {
+        imgUrl(){
+            return this.toyToEdit.imgUrl
+        },
         title() {
             return this.toyId ? 'Toy Edit' : 'Toy Add'
         },
@@ -71,7 +91,9 @@ export default {
             this.toyToEdit = toyService.getEmptyToy();
             
         }
-    }
+    },
+   components: {
+  }, 
 }
 </script>
 
