@@ -42,15 +42,12 @@ export default {
             this.$store.dispatch({ type: 'saveToy', toy:this.toyToEdit })
             .then(() => {
                 showMsg('toy was saved successfully');
-                this.$router.push('/toys')//CR
+                this.$router.push('/toys')
                 
             })
             .catch(err => {
                 showMsg('Cannot save toy', 'danger')
-            })
-
-            // this.$router.push('/')CR
-               
+            })               
         },
         goBack(){
             this.$router.push('/toys')

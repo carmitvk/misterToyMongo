@@ -8,7 +8,10 @@
         <!-- <p>{{toy.creatorFullName}}</p> -->
         <p v-if="toy.inStock">Is in stock</p>
         <p v-else>Is not in stock</p>
-        <review-list :reviews="toy.reviews" @remove="removeReview" />hh  {{toy._id}}hhh
+        <hr/>
+        <chat :toyId="toy._id"/>
+        <hr/>
+        <review-list :reviews="toy.reviews" @remove="removeReview" />
         <button><router-link :to="'/toy/' + toy._id + '/review/'">Add New Review</router-link></button>
         <button @click="goBack">Back</button>
     </section>
@@ -18,6 +21,7 @@
 import {toyService} from '../services/toy.service.js'
 import {reviewService} from '../services/review.service.js'
 import reviewList from '../cmps/reviewList'
+import chat from '../cmps/chat'
 // import '../lib/moment.js' //???
 
 export default {
@@ -36,7 +40,7 @@ export default {
         loadToy() {
             const id = this.$route.params.toyId
             return toyService.getById(id)
-            .then((toy)=>{
+            .then((toy)=>{//TODO toy is array, fix it in the backed side
                 console.log('toy._id', toy._id)
                 return this.toy = toy
             })
@@ -75,13 +79,16 @@ export default {
     },
     created() {
         this.loadToy()
+        this.$store.dispatch({type:'initListeners' })
+
         // .then(()=>{
             // this.loadReviews(this.toy._id);
         // })
 
     },
     components: {
-        reviewList
+        reviewList,
+        chat
     }
 }
 </script>

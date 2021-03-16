@@ -1,10 +1,13 @@
 
+//npm i socket.io@2.2.0
 
 const asyncLocalStorage = require('./als.service');
 const logger = require('./logger.service');
 
+
 var gIo = null
-var gSocketBySessionIdMap = {}
+var gSocketBySessionIdMap = {};
+var usersByToyMap = new Map(); // key=toyid, value=map(key=sessionID, value=userName)
 
 function connectSockets(http, session) {
     gIo = require('socket.io')(http);
@@ -23,22 +26,59 @@ function connectSockets(http, session) {
             console.log('Someone disconnected')
             if (socket.handshake) {
                 gSocketBySessionIdMap[socket.handshake.sessionID] = null
+                var users = usersByToyMap.get(socket.toyId)
+                if (users && socket.handshake.sessionID){
+                    users.delete(socket.handshake.sessionID);
+                }
+                gIo.to(socket.toyId).emit('user-list', usersByCurrToyId.values() ) //  replace to regular array not map
             }
         })
-        socket.on('chat topic', topic => {
-            if (socket.myTopic === topic) return;
-            if (socket.myTopic) {
-                socket.leave(socket.myTopic)
+
+        socket.on('toyId', data => {
+            if (socket.toyId === data.toyId) return;
+            if (socket.toyId) {
+                socket.leave(socket.toyId)
+                var users = usersByToyMap.get(socket.toyId)
+                if (users && socket.handshake.sessionID){
+                    users.delete(socket.handshake.sessionID);
+                }
             }
-            socket.join(topic)
+            socket.join(data.toyId)
             // logger.debug('Session ID is', socket.handshake.sessionID)
-            socket.myTopic = topic
+            socket.toyId = data.toyId
+            socket.userName = data.userName;
+
+            var usersByCurrToyId = usersByToyMap.get(data.toyId);
+            if (!usersByCurrToyId) {
+                usersByCurrToyId = new Map();//key=userId, value=userName
+                usersByToyMap.set(data.toyId, usersByCurrToyId);
+            }
+            var userName = usersByCurrToyId.get(socket.handshake.sessionID)
+            if (!userName && userName !== data.userName){
+                usersByCurrToyId.set(socket.handshake.sessionID, data.userName)
+            }
+            var users = [];
+            for (const user of usersByCurrToyId.values()) {
+                users.push(user);
+            }
+            gIo.to(socket.toyId).emit('user-list', users ) //  replace to regular array not map
         })
-        socket.on('chat newMsg', msg => {
+
+
+        socket.on('msg-text', msg => {
             // emits to all sockets:
             // gIo.emit('chat addMsg', msg)
             // emits only to sockets in the same room
-            gIo.to(socket.myTopic).emit('chat addMsg', msg)
+            msg.userName = socket.userName
+            msg.createdAt = Date.now()
+            gIo.to(socket.toyId).emit('msg-text', msg)
+        })
+
+        socket.on('user-typing', data => {
+            // emits to all sockets:
+            // gIo.emit('chat addMsg', msg)
+            // emits only to sockets in the same room
+            gIo.to(socket.toyId).emit('user-typing', data)
         })
 
     })

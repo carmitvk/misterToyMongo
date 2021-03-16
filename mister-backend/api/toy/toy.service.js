@@ -1,6 +1,5 @@
 const logger = require('../../services/logger.service')
 const dbService = require('../../services/db.service')
-const toyService = require('../toy/toy.service')
 const ObjectId = require('mongodb').ObjectId
 
 module.exports = {
@@ -26,33 +25,53 @@ async function query() {
 async function getById(toyId) {
     try {
         const collection = await dbService.getCollection('toy')
-        // const toy = await collection.aggregate([
-        //     {
-        //         $match: { '_id': ObjectId(toyId) }
-        //     }
+        const toy = await collection.aggregate([
+            {
+                $match: { '_id': ObjectId(toyId) }
+            },
+            {
+                $addFields: {
+                    stringId: {
+                        $toObjectId: "$_id"
+                    }
+                }
+            },
 
-        //     // {
-        //     //     $lookup:
-        //     //     {
-        //     //         localField: 'reviewIds',
-        //     //         from: 'review',
-        //     //         foreignField: '_id',
-        //     //         as: 'reviews'
-        //     //     }
-        //     // },
-        //     // { 
-        //     //     $addFields: { 
-        //     //         stringId: { 
-        //     //             $toObjectId: "$_id" 
-        //     //         } 
-        //     //     } 
-        //     // },
-        // ]).toArray()
-
-
-
-        const toy = await collection.findOne({ '_id': ObjectId(toyId) })
-        return toy
+            // {
+            //     $lookup:
+            //     {
+            //         localField: 'reviewIds',
+            //         from: 'review',
+            //         foreignField: '_id',
+            //         as: 'reviews'
+            //     }
+            // },
+            {
+                $lookup:
+                {
+                    from: "review",
+                    let: { vid: "$reviewIds" },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $in: ["$_id", {
+                                        $map: {
+                                            input: "$$vid",
+                                            in: { $toObjectId: "$$this" }
+                                        }
+                                    }
+                                    ]
+                                }
+                            }
+                        }
+                    ],
+                    as: "reviews"
+                }
+            },
+        ]).toArray()
+        // const toy = await collection.findOne({ '_id': ObjectId(toyId) })
+        return toy[0]
     } catch (err) {
         logger.error(`while finding toy ${toyId}`, err)
         throw err

@@ -1,0 +1,27 @@
+.chat-container {
+    margin:10px 10% 10px 10%;
+
+    .chat-hdr{
+        background-color: rgb(190, 134, 181);
+        min-height: 20px;
+    }
+
+    .chat-msgs{
+        height: 300px;
+        overflow: auto;
+        border: 1px solid gray;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding:10px;
+
+        .chat-user-name{
+            font-weight: bold;
+            padding-right: 5px;
+        }
+    }
+    
+
+
+}
+

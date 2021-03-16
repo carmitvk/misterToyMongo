@@ -3,6 +3,7 @@ const dbService = require('../../services/db.service')
 // const logger = require('../../services/logger.service')
 const reviewService = require('../review/review.service')
 const ObjectId = require('mongodb').ObjectId
+var gUserName;
 
 module.exports = {
     query,
@@ -52,6 +53,7 @@ async function getByUsername(username) {
     try {
         const collection = await dbService.getCollection('user')
         const user = await collection.findOne({ username })
+        gUserName = username;
         return user
     } catch (err) {
         logger.error(`while finding user ${username}`, err)
